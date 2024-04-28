@@ -13,8 +13,9 @@ class UserModel{
     required this.password,
   });
 
-  UserModel copyWith({int? id, String? name, String? gmail, String? password}){
+  UserModel copyWith({int? id, String? nombre, String? gmail, String? password}){
     return UserModel(
+
       nombre:  nombre ?? this.nombre,
       gmail: gmail ?? this.gmail,
       password: password ?? this.password,
