@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:formulario_login/src/myappresgistro.dart';
 
 class MyappForm extends StatefulWidget {
   const MyappForm({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _MyappFormState extends State<MyappForm> {
   final _nombreField = TextEditingController();
   final _emailField = TextEditingController();
   final _passField = TextEditingController();
-  String? _CTValue;
+  
 
   @override
   void dispose() {
@@ -121,27 +122,6 @@ class _MyappFormState extends State<MyappForm> {
                   height: 18.0,
                 ),
 
-                //el DropdownButtonForm hace referencia al menu donde aparecen los centros tutoriales.
-                DropdownButtonFormField<String>(
-                  value: _CTValue,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _CTValue = newValue!;
-                    });
-                  },
-                  decoration:  InputDecoration(
-                    labelText: 'Centro tutorial',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-                    icon: Icon(Icons.location_on),
-                  ),
-                  items: <String>['', 'Mompox', 'Magangue', 'San juan ', 'Lorica', 'El carmen', 'Cerete']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value ?? '' ),
-                    );
-                  }).toList(),
-                ),
                 Divider(
                   height: 18.0,
                 ),
@@ -151,38 +131,43 @@ class _MyappFormState extends State<MyappForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context){
-                            return AlertDialog(
-                              title: Text('Datos Registrados'),
-                              content: Text(
-                                'Usuario: ${_nombreField.text}\n'
-                                'Correo: ${_emailField.text}\n'
-                                'Contraseña: ${_passField.text}\n'
-                                'Centro Tutorial: $_CTValue',
-                              ),
-                              actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      //limpiar los TextField despues de mostrar la informacion registrada previamente en ellos
-                                      _nombreField.clear();
-                                      _emailField.clear();
-                                      _passField.clear();
-                                      setState(() {
-                                        _CTValue = null;
-                                      });
-                                    },
-                                    child: Text('Cerrar'),
-                                  ),
-                              ],
-                            );
-                          }
-                        );
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (BuildContext context){
+                    //         return AlertDialog(
+                    //           title: Text('Datos Registrados'),
+                    //           content: Text(
+                    //             'Usuario: ${_nombreField.text}\n'
+                    //             'Correo: ${_emailField.text}\n'
+                    //             'Contraseña: ${_passField.text}\n'
+                    //           ),
+                    //           actions: <Widget>[
+                    //               TextButton(
+                    //                 onPressed: () {
+                    //                   Navigator.of(context).pop();
+                    //                   //limpiar los TextField despues de mostrar la informacion registrada previamente en ellos
+                    //                   _nombreField.clear();
+                    //                   _emailField.clear();
+                    //                   _passField.clear();
+                    //                 },
+                    //                 child: Text('Cerrar'),
+                    //               ),
+                    //           ],
+                    //         );
+                    //       }
+                    //     );
                     }
                   },
-                  child: const Text('submit'),
+                  child: const Text('INICIAR SESION'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RegistroUsers())
+                    );
+                  },
+                  child: const Text('REGISTRARSE'),
                 ),
               ],
             ),
