@@ -4,7 +4,7 @@ class Databasehelper{
 
   static Databasehelper? _databasehelper;
   Databasehelper._internal();
-  static Databasehelper get instace => _databasehelper ?? Databasehelper._internal();
+  static Databasehelper get instance => _databasehelper ?? Databasehelper._internal();
 
   Database? _db; 
   Database get db => _db!;
