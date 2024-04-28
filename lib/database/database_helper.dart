@@ -14,10 +14,8 @@ class Databasehelper{
       'database.db',
       version: 1,
       onCreate: ((db, version) {
-        db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, gmail TEXT, password TEXT)');
+        db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, gmail TEXT, password TEXT)');
       })
     );
-
   }
-
 }
