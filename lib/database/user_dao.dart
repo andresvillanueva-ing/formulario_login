@@ -14,6 +14,10 @@ class UserDao{
   }
 
   Future<void> update(UserModel user) async{
-    await database.update('users', user.toMap(), )
+    await database.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id] );
+  }
+
+  Future<void> delete(UserModel user) async{
+    await database.delete('users', where: 'id = ?', whereArgs: [user.id]);
   }
 }
