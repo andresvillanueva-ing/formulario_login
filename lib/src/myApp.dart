@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formulario_login/src/myappresgistro.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart'; 
 
 class MyappForm extends StatefulWidget {
   const MyappForm({Key? key}) : super(key: key);
@@ -12,16 +14,28 @@ class _MyappFormState extends State<MyappForm> {
 
   //variables definidas igualadas al texteditingcontroler que sirve para funcionar con el formulario
   final _formKey = GlobalKey<FormState>();
-  final _nombreField = TextEditingController();
   final _emailField = TextEditingController();
   final _passField = TextEditingController();
+  late Database _database;
   
+  @override
+  void initState(){
+    super.initState();
+    //abrir conexion con la base de datos
+    _openDatabase();
+  }
+
+   Future<void> _openDatabase() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'database.db');
+    _database = await openDatabase(path);
+  }
 
   @override
   void dispose() {
-    _nombreField.dispose();
     _emailField.dispose();
     _passField.dispose();
+    _database.close();
     super.dispose();
   }
 
@@ -62,26 +76,8 @@ class _MyappFormState extends State<MyappForm> {
                 ),
 
                 //desde aqui empiezan los elementos para recopilar los datos 
-                //textField del nombre de usuario. 
-                TextFormField(
-                  controller: _nombreField,
-                  decoration:  InputDecoration(
-                    labelText: 'User name',
-                    suffixIcon: Icon(Icons.verified_user),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-                  ),
-                  //funcion para validar que el campo del nombre usuario se encuentre lleno
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese su nombre';
-                    }
-                    return null;
-                  },
-                ),
-                Divider(
-                  height: 18.0,
-                ),
-
+                
+                
                 //TextField del correo electronico 
                 TextFormField(
                   controller: _emailField,
@@ -130,32 +126,8 @@ class _MyappFormState extends State<MyappForm> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (BuildContext context){
-                    //         return AlertDialog(
-                    //           title: Text('Datos Registrados'),
-                    //           content: Text(
-                    //             'Usuario: ${_nombreField.text}\n'
-                    //             'Correo: ${_emailField.text}\n'
-                    //             'Contraseña: ${_passField.text}\n'
-                    //           ),
-                    //           actions: <Widget>[
-                    //               TextButton(
-                    //                 onPressed: () {
-                    //                   Navigator.of(context).pop();
-                    //                   //limpiar los TextField despues de mostrar la informacion registrada previamente en ellos
-                    //                   _nombreField.clear();
-                    //                   _emailField.clear();
-                    //                   _passField.clear();
-                    //                 },
-                    //                 child: Text('Cerrar'),
-                    //               ),
-                    //           ],
-                    //         );
-                    //       }
-                    //     );
+                      _login();
+                    //    
                     }
                   },
                   child: const Text('INICIAR SESION'),
@@ -175,5 +147,27 @@ class _MyappFormState extends State<MyappForm> {
         ),
       ),
     );
+  }
+
+  Future<void> _login() async{
+    String gmail = _emailField.text;
+    String password = _passField.text;
+    //
+    List<Map<String, dynamic>> results = await _database.rawQuery(
+      'SELECT * FROM users WHERE gmail = ? AND password = ?', 
+      [gmail, password]
+    );
+
+    if(results.isNotEmpty){
+      print('inicio de sesion exitoso');
+      Navigator.push(
+      context as BuildContext,
+        MaterialPageRoute(builder: (context) => const RegistroUsers())
+     );
+    }else{
+               AlertDialog(
+                title: Text('Datos incorrectos.'),
+              );
+    }
   }
 }
