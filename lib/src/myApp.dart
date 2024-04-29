@@ -56,7 +56,7 @@ class _MyappFormState extends State<MyappForm> {
                 CircleAvatar(
                   radius: 100.0,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage('Image/logo.png'),
+                  backgroundImage: AssetImage('Image/logouni.png'),
                 ),
 
                 //texto que aparece en pantalla debajo del logo
@@ -124,9 +124,27 @@ class _MyappFormState extends State<MyappForm> {
 
                 //este es el boton que permite el envio de la informacion registrada en los TextField
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
                     if (_formKey.currentState!.validate()) {
-                      _login();
+                      String gmail = _emailField.text;
+                      String password = _passField.text;
+                      await _openDatabase();
+                      //
+                      List<Map<String, dynamic>> results = await _database.rawQuery(
+                        'SELECT * FROM users WHERE gmail = ? AND password = ?', 
+                        [gmail, password]
+                      );
+                      if(results.isNotEmpty){
+                            print('inicio de sesion exitoso');
+                            Navigator.push(
+                            context,
+                              MaterialPageRoute(builder: (context) => const RegistroUsers())
+                          );
+                      }else{
+                          AlertDialog(
+                            title: Text('Datos incorrectos.'),
+                          );
+                      }
                     //    
                     }
                   },
@@ -149,25 +167,4 @@ class _MyappFormState extends State<MyappForm> {
     );
   }
 
-  Future<void> _login() async{
-    String gmail = _emailField.text;
-    String password = _passField.text;
-    //
-    List<Map<String, dynamic>> results = await _database.rawQuery(
-      'SELECT * FROM users WHERE gmail = ? AND password = ?', 
-      [gmail, password]
-    );
-
-    if(results.isNotEmpty){
-      print('inicio de sesion exitoso');
-      Navigator.push(
-      context as BuildContext,
-        MaterialPageRoute(builder: (context) => const RegistroUsers())
-     );
-    }else{
-               AlertDialog(
-                title: Text('Datos incorrectos.'),
-              );
-    }
-  }
 }
