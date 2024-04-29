@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:formulario_login/src/myApp.dart';
+import 'package:formulario_login/database/database_helper.dart';
+
 
 // Documento inicial donde contiene la funcion (MyappForm()) que se mostrara en la pantalla. 
 
-void main() => runApp(const MyApp());
+void main() async { 
+  WidgetsFlutterBinding.ensureInitialized();
+  await Databasehelper.instance.init();
+  runApp(const MyApp());
+  }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

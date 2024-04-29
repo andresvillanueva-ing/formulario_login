@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:formulario_login/database/database_helper.dart';
+import 'package:formulario_login/database/user_dao.dart';
+import 'package:formulario_login/src/user_model.dart';
 
 class RegistroUsers extends StatefulWidget {
   const RegistroUsers({super.key});
@@ -15,6 +18,9 @@ class _RegistroUsersState extends State<RegistroUsers> {
   final _nombreField = TextEditingController();
   final _emailField = TextEditingController();
   final _passField = TextEditingController();
+  //database
+  List<UserModel> users = [];
+  final dao = UserDao();
   
 
   @override
@@ -23,6 +29,16 @@ class _RegistroUsersState extends State<RegistroUsers> {
     _emailField.dispose();
     _passField.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dao.readAll().then((value){
+      setState(() {
+        users = value;
+      });
+    });
   }
 
   @override
@@ -42,7 +58,7 @@ class _RegistroUsersState extends State<RegistroUsers> {
                 CircleAvatar(
                   radius: 100.0,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage('Image/logo.png'),
+                  backgroundImage: AssetImage('Image/logouni.png'),
                 ),
 
                 //texto que aparece en pantalla debajo del logo
@@ -93,7 +109,7 @@ class _RegistroUsersState extends State<RegistroUsers> {
                   //funcion para verificar que el campo del correo se encuentre lleno 
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese su correo';
+                      return 'Por favor ingrese un correo';
                     }
                     return null;
                   },
@@ -113,7 +129,7 @@ class _RegistroUsersState extends State<RegistroUsers> {
                   //funcion para validar que el campo de la contraseña este lleno.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese su contraseña';
+                      return 'Por favor una contraseña';
                     }
                     return null;
                   },
@@ -128,9 +144,21 @@ class _RegistroUsersState extends State<RegistroUsers> {
 
                 //este es el boton que permite el envio de la informacion registrada en los TextField
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
                     if (_formKey.currentState!.validate()) {
-                      
+                      final nombre = _nombreField.text;
+                      final gmail = _emailField.text;
+                      final password = _passField.text;
+                      UserModel user = UserModel(nombre: nombre, gmail: gmail, password: password);
+                      final id = await dao.insert(user);
+                      user = user.copyWith(id: id);
+                      _nombreField.clear();
+                      _emailField.clear();
+                      _passField.clear();
+                      setState(() {
+                      users.add(user);
+                    });
+                    }
                     //     showDialog(
                     //       context: context,
                     //       builder: (BuildContext context){
@@ -156,9 +184,9 @@ class _RegistroUsersState extends State<RegistroUsers> {
                     //         );
                     //       }
                     //     );
-                    }
+                    
                   },
-                  child: const Text('INICIAR SESION'),
+                  child: const Text('REGISTRAR USUARIO'),
                 ),
                
               ],
