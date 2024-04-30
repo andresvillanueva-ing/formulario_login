@@ -1,21 +1,22 @@
 import 'package:sqflite/sqflite.dart';
 
-class Databasehelper{
+class DatabaseHelper{
 
-  static Databasehelper? _databasehelper;
-  Databasehelper._internal();
-  static Databasehelper get instance => _databasehelper ?? Databasehelper._internal();
+  static DatabaseHelper? _databasehelper;
+  DatabaseHelper._internal();
+  static DatabaseHelper get instance => _databasehelper ?? DatabaseHelper._internal();
 
-  Database? _db; 
-  Database get db => _db!;
+  late Database _db; 
+  Database get db => _db;
 
-  Future<void> init() async{
-    _db = await openDatabase(
-      'database.db',
-      version: 1,
-      onCreate: ((db, version) {
-        db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT, gmail TEXT, password TEXT)');
-      })
-    );
-  }
+ Future<void> init() async{
+  await DatabaseHelper.instance.init();
+  _db = await openDatabase(
+    'database.db',
+    version: 1,
+    onCreate: ((db, version) {
+      db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT, gmail TEXT, password TEXT)');
+    })
+  );
+}
 }

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-// import 'package:formulario_login/database/database_helper.dart';
 import 'package:formulario_login/database/user_dao.dart';
 import 'package:formulario_login/src/user_model.dart';
 
-class RegistroUsers extends StatefulWidget {
-  const RegistroUsers({super.key});
+class SingupScreen extends StatefulWidget {
+  const SingupScreen({super.key});
 
   @override
-  State<RegistroUsers> createState() => _RegistroUsersState();
+  State<SingupScreen> createState() => _SingupScreenState();
 }
 
 
-class _RegistroUsersState extends State<RegistroUsers> {
+class _SingupScreenState extends State<SingupScreen> {
 
   //variables definidas igualadas al texteditingcontroler que sirve para funcionar con el formulario
   final _formKey = GlobalKey<FormState>();
@@ -22,7 +21,6 @@ class _RegistroUsersState extends State<RegistroUsers> {
   List<UserModel> users = [];
   final dao = UserDao();
   
-
   @override
   void dispose() {
     _nombreField.dispose();
@@ -159,32 +157,6 @@ class _RegistroUsersState extends State<RegistroUsers> {
                       users.add(user);
                     });
                     }
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (BuildContext context){
-                    //         return AlertDialog(
-                    //           title: Text('Datos Registrados'),
-                    //           content: Text(
-                    //             'Usuario: ${_nombreField.text}\n'
-                    //             'Correo: ${_emailField.text}\n'
-                    //             'Contraseña: ${_passField.text}\n'
-                    //           ),
-                    //           actions: <Widget>[
-                    //               TextButton(
-                    //                 onPressed: () {
-                    //                   Navigator.of(context).pop();
-                    //                   //limpiar los TextField despues de mostrar la informacion registrada previamente en ellos
-                    //                   _nombreField.clear();
-                    //                   _emailField.clear();
-                    //                   _passField.clear();
-                    //                 },
-                    //                 child: Text('Cerrar'),
-                    //               ),
-                    //           ],
-                    //         );
-                    //       }
-                    //     );
-                    
                   },
                   child: const Text('REGISTRAR USUARIO'),
                 ),

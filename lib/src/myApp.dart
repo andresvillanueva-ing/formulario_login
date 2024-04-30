@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:formulario_login/src/myappresgistro.dart';
+import 'package:formulario_login/components/colors.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart'; 
 
-class MyappForm extends StatefulWidget {
-  const MyappForm({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyappForm> createState() => _MyappFormState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _MyappFormState extends State<MyappForm> {
+class _LoginScreenState extends State<LoginScreen> {
 
   //variables definidas igualadas al texteditingcontroler que sirve para funcionar con el formulario
   final _formKey = GlobalKey<FormState>();
@@ -52,6 +52,15 @@ class _MyappFormState extends State<MyappForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 
+                //texto que aparece en pantalla 
+                Text(
+                  'Login',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 50.0,
+                    color: primaryColor,
+                  ),
+                ),
                 //logo que aparece en la pantalla 
                 CircleAvatar(
                   radius: 100.0,
@@ -59,14 +68,8 @@ class _MyappFormState extends State<MyappForm> {
                   backgroundImage: AssetImage('Image/logouni.png'),
                 ),
 
-                //texto que aparece en pantalla debajo del logo
-                Text(
-                  'Login',
-                  style: TextStyle(
-                    fontFamily: 'cursive',
-                    fontSize: 50.0,
-                  ),
-                ),
+                
+                
                 SizedBox(
                   width: 160.0,
                   height: 15.0,
@@ -114,51 +117,44 @@ class _MyappFormState extends State<MyappForm> {
                     return null;
                   },
                 ),
-                Divider(
-                  height: 18.0,
-                ),
-
-                Divider(
-                  height: 18.0,
-                ),
-
+               
                 //este es el boton que permite el envio de la informacion registrada en los TextField
-                ElevatedButton(
-                  onPressed: () async{
-                    if (_formKey.currentState!.validate()) {
-                      String gmail = _emailField.text;
-                      String password = _passField.text;
-                      await _openDatabase();
-                      //
-                      List<Map<String, dynamic>> results = await _database.rawQuery(
-                        'SELECT * FROM users WHERE gmail = ? AND password = ?', 
-                        [gmail, password]
-                      );
-                      if(results.isNotEmpty){
-                            print('inicio de sesion exitoso');
-                            Navigator.push(
-                            context,
-                              MaterialPageRoute(builder: (context) => const RegistroUsers())
-                          );
-                      }else{
-                          AlertDialog(
-                            title: Text('Datos incorrectos.'),
-                          );
-                      }
-                    //    
-                    }
-                  },
-                  child: const Text('INICIAR SESION'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegistroUsers())
-                    );
-                  },
-                  child: const Text('REGISTRARSE'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () async{
+                //     if (_formKey.currentState!.validate()) {
+                //       String gmail = _emailField.text;
+                //       String password = _passField.text;
+                //       await _openDatabase();
+                //       //
+                //       List<Map<String, dynamic>> results = await _database.rawQuery(
+                //         'SELECT * FROM users WHERE gmail = ? AND password = ?', 
+                //         [gmail, password]
+                //       );
+                //       if(results.isNotEmpty){
+                //             print('inicio de sesion exitoso');
+                //             Navigator.push(
+                //             context,
+                //               MaterialPageRoute(builder: (context) => const  )
+                //           );
+                //       }else{
+                //           AlertDialog(
+                //             title: Text('Datos incorrectos.'),
+                //           );
+                //       }
+                //     //    
+                //     }
+                //   },
+                //   child: const Text('INICIAR SESION'),
+                // ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => const )
+                //     );
+                //   },
+                //   child: const Text('REGISTRARSE'),
+                // ),
               ],
             ),
           ),

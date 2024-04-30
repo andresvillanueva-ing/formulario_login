@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:formulario_login/src/myApp.dart';
-// import 'package:formulario_login/database/database_helper.dart';
-import 'package:formulario_login/src/myappresgistro.dart';
+import 'package:formulario_login/src/index.dart';
 
 
 // Documento inicial donde contiene la funcion (MyappForm()) que se mostrara en la pantalla. 
@@ -18,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'App Login',
-      home:  RegistroUsers(),
+      home:  index(),
     );
   }
 }

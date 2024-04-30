@@ -2,7 +2,7 @@ import 'package:formulario_login/database/database_helper.dart';
 import 'package:formulario_login/src/user_model.dart';
 
 class UserDao{
-  final database = Databasehelper.instance.db;
+  final database = DatabaseHelper.instance.db;
 
   Future<List<UserModel>> readAll() async{
     final data = await database.query('users');
