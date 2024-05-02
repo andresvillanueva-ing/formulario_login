@@ -17,21 +17,23 @@ class DatabaseHelper{
     userPassword TEXT
   )
  ''';
+ 
  Future<Database> initDB() async{
   final databasePath = await getDatabasesPath();
   final path = join(databasePath, databaseName);
   
   return openDatabase(path, version: 1,
-    onCreate: ((db, version) async {
+    onCreate: (db, version) async {
       await db.execute(user);
-    })
-  );
-
-
-  // ignore: dead_code
+    });
+ }
+ 
+  //autentificacion
+  
   Future<bool> authenticate(Users usr)async{
     final Database db = await initDB();
-    var results = await db.query("SELECT * FROM users where userName= '${usr.userName}' AND userPassword '${usr.password}' ");
+    var results = await db.query(
+      "SELECT * FROM users where userName= '${usr.userName}' AND userPassword '${usr.password}' ");
     if(results.isNotEmpty){
       return true;
     }else{
@@ -39,7 +41,17 @@ class DatabaseHelper{
     }
   }
 
+  //crear usuario
+  Future<int> createUser(Users usr)async{
+    final Database db = await initDB();
+    return db.insert("users", usr.toMap() );
+  }
 
+  //get current user details
+  Future<Users?> getUser(String userName) async{
+    final Database db = await initDB();
+    var res = await db.query("users", where: "userName = ?", whereArgs: [userName]);
+    return res.isNotEmpty? Users.fromMap(res.first):null;
+  }
   
-}
 }
