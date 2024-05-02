@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:formulario_login/src/index.dart';
 
 
-// Documento inicial donde contiene la funcion (MyappForm()) que se mostrara en la pantalla. 
+// Documento inicial donde contiene la funcion (index()) que se mostrara en la pantalla. 
 
 void main() async { 
   runApp(const MyApp());

@@ -32,9 +32,8 @@ class DatabaseHelper{
   
   Future<bool> authenticate(Users usr)async{
     final Database db = await initDB();
-    var results = await db.query(
-      "SELECT * FROM users where userName= '${usr.userName}' AND userPassword '${usr.password}' ");
-    if(results.isNotEmpty){
+    var result = await db.query('SELECT * FROM users where userName = "${usr.userName}" AND userPassword "${usr.password}" ');
+    if(result.isNotEmpty){
       return true;
     }else{
       return false;
