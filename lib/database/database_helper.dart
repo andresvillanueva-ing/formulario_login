@@ -8,15 +8,15 @@ class DatabaseHelper{
 
   //table
 
-  String user = '''
-  CREATE TABLE users (
-    userId INTEGER PRIMARY KEY AUTOINCREMENT,
-    fullName TEXT,
-    email TEXT,
-    userName TEXT UNIQUE,
-    userPassword TEXT
-  )
- ''';
+//   String user = '''
+//   CREATE TABLE users (
+//     userId INTEGER PRIMARY KEY AUTOINCREMENT,
+//     fullName TEXT,
+//     email TEXT,
+//     userName TEXT UNIQUE,
+//     userPassword TEXT
+//   )
+//  ''';
  
  Future<Database> initDB() async{
   final databasePath = await getDatabasesPath();
@@ -24,16 +24,15 @@ class DatabaseHelper{
   
   return openDatabase(path, version: 1,
     onCreate: (db, version) async {
-      await db.execute(user);
+      await db.execute("CREATE TABLE users(userId INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT, userName TEXT UNIQUE, userPassword TEXT)");
     });
  }
  
   //autentificacion
   
   Future<bool> authenticate(Users usr)async{
-    String sql = " users where userName = '${usr.userName}' AND userPassword = '${usr.password}' ";
     final Database db = await initDB();
-    var result = await db.query(sql);
+    var result = await db.query(" users WHERE userName = '${usr.userName}' AND userPassword = '${usr.password}' ");
     if(result.isNotEmpty){
       return true;
     }else{

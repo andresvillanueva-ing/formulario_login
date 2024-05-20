@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:formulario_login/components/button.dart';
 import 'package:formulario_login/components/colors.dart';
 import 'package:formulario_login/src/myApp.dart';
@@ -8,6 +7,7 @@ import 'package:formulario_login/src/myappresgistro.dart';
 class index extends StatelessWidget {
   const index({super.key});
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +31,7 @@ class index extends StatelessWidget {
                 'inici sesion o registrate en nuestra app',
                 style: TextStyle(color: Colors.grey),
               ),
+              
               Expanded(child: Image.asset("Image/inicio.jpg")),
               Button(label: 'LOGIN', press: () {
                 Navigator.push(
